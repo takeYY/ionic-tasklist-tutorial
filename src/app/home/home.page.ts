@@ -16,11 +16,14 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id');
+    if (localStorage.getItem('tasks')) {
+      this.tasks = JSON.parse(localStorage.getItem('tasks'));
+    }
   }
 
   ionViewWillEnter() {
     if ('task' in localStorage) {
-      this.tasks = JSON.parse(localStorage.tasks);
+      this.tasks = JSON.parse(localStorage.getItem('tasks'));
     }
   }
 
