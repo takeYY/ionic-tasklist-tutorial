@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  public folder: string;
   title = 'タスク登録';
   tasks: { name: string }[] = [];
 
