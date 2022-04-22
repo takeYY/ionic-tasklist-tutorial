@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -7,36 +7,28 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">{{ folder }}</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <form class="ion-padding" (submit)="addTask()" #f="ngForm">
+    <ion-item lines="full" class="ion-padding-bottom">
+      <ion-label position="floating">タスク</ion-label>
+      <ion-input
+        type="text"
+        placeholder="タスク追加"
+        [(ngModel)]="task"
+        name="task"
+        required
+        minlength="3"
+        maxlength="20"
+      ></ion-input>
+    </ion-item>
+    <ion-button type="submit" expand="block" shape="round" [disabled]="!f.form.valid"
+      >追加</ion-button
+    >
+  </form>
 
-  <ion-content>
-    <form class="ion-padding" (submit)="addTask()" #f="ngForm">
-      <ion-item lines="full" class="ion-padding-bottom">
-        <ion-label position="floating">タスク</ion-label>
-        <ion-input
-          type="text"
-          placeholder="タスク追加"
-          [(ngModel)]="task"
-          name="task"
-          required
-          minlength="3"
-          maxlength="20"
-        ></ion-input>
-      </ion-item>
-      <ion-button type="submit" expand="block" shape="round" [disabled]="!f.form.valid"
-        >追加</ion-button
-      >
-    </form>
-
-    <ion-list>
-      <ion-item *ngFor="let t of tasks">
-        <ion-label>{{ t.name }}</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-content>
+  <ion-list>
+    <ion-item *ngFor="let t of tasks">
+      <ion-label>{{ t.name }}</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,14 +7,13 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class HomePage implements OnInit {
   public folder: string;
-  title = 'タスク管理';
+  title = 'タスク登録';
   tasks: { name: string }[] = [];
 
   task: string;
-  constructor(private activatedRoute: ActivatedRoute) {}
+  constructor() {}
 
   ngOnInit() {
-    this.folder = this.activatedRoute.snapshot.paramMap.get('id');
     if (localStorage.getItem('tasks')) {
       this.tasks = JSON.parse(localStorage.getItem('tasks'));
     }
