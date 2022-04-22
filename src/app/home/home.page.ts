@@ -9,10 +9,26 @@ import { ActivatedRoute } from '@angular/router';
 export class HomePage implements OnInit {
   public folder: string;
   title = 'タスク管理';
-  tasks: { name: string }[] = [{ name: 'タスク1' }, { name: 'タスク2' }];
+  tasks: { name: string }[] = [];
+
+  task: string;
   constructor(private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id');
+  }
+
+  ionViewWillEnter() {
+    if ('task' in localStorage) {
+      this.tasks = JSON.parse(localStorage.tasks);
+    }
+  }
+
+  addTask() {
+    this.tasks.push({
+      name: this.task,
+    });
+    localStorage.tasks = JSON.stringify(this.tasks);
+    this.task = '';
   }
 }

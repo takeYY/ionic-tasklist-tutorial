@@ -15,12 +15,22 @@
   </ion-header>
 
   <ion-content>
-    <form class="ion-padding">
+    <form class="ion-padding" (submit)="addTask()" #f="ngForm">
       <ion-item lines="full" class="ion-padding-bottom">
         <ion-label position="floating">タスク</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input
+          type="text"
+          placeholder="タスク追加"
+          [(ngModel)]="task"
+          name="task"
+          required
+          minlength="3"
+          maxlength="20"
+        ></ion-input>
       </ion-item>
-      <ion-button expand="block" shape="round">追加</ion-button>
+      <ion-button type="submit" expand="block" shape="round" [disabled]="!f.form.valid"
+        >追加</ion-button
+      >
     </form>
 
     <ion-list>
