@@ -14,7 +14,7 @@
       <ion-input
         type="text"
         placeholder="タスク追加"
-        [(ngModel)]="task"
+        [(ngModel)]="taskName"
         name="task"
         required
         minlength="3"
@@ -27,7 +27,7 @@
   </form>
 
   <ion-list>
-    <ion-item *ngFor="let t of tasks">
+    <ion-item *ngFor="let t of (tasks$ | async); let i = index">
       <ion-label>{{ t.name }}</ion-label>
     </ion-item>
   </ion-list>

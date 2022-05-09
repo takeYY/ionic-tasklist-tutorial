@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, AlertController } from '@ionic/angular';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { deleteTask, updateTask } from '../app-store/actions/session.actions';
 
 @Component({
   selector: 'app-tasklist',
@@ -7,19 +10,17 @@ import { ActionSheetController, AlertController } from '@ionic/angular';
   styleUrls: ['./tasklist.page.scss'],
 })
 export class TasklistPage implements OnInit {
-  tasks: { name: string }[] = [];
+  tasks$: Observable<{ name: string }[]>;
+
   constructor(
     public actionSheetController: ActionSheetController,
     public alertController: AlertController,
-  ) {}
+    private store: Store<{ tasks: { name: string }[] }>,
+  ) {
+    this.tasks$ = store.select('tasks');
+  }
 
   ngOnInit() {}
-
-  ionViewWillEnter() {
-    if ('tasks' in localStorage) {
-      this.tasks = JSON.parse(localStorage.getItem('tasks'));
-    }
-  }
 
   async changeTask(index: number) {
     const actionSheet = await this.actionSheetController.create({
@@ -64,8 +65,7 @@ export class TasklistPage implements OnInit {
           text: '削除',
           role: 'destructive',
           handler: () => {
-            this.tasks.splice(index, 1);
-            localStorage.tasks = JSON.stringify(this.tasks);
+            this.store.dispatch(deleteTask({ index }));
           },
         },
       ],
@@ -80,7 +80,7 @@ export class TasklistPage implements OnInit {
         {
           name: 'task',
           placeholder: 'タスク',
-          value: this.tasks[index].name,
+          value: this.tasks$[index].name,
         },
       ],
       buttons: [
@@ -90,8 +90,7 @@ export class TasklistPage implements OnInit {
         {
           text: '保存',
           handler: (data) => {
-            this.tasks[index] = { name: data.task };
-            localStorage.tasks = JSON.stringify(this.tasks);
+            this.store.dispatch(updateTask({ index, name: data.task }));
           },
         },
       ],
