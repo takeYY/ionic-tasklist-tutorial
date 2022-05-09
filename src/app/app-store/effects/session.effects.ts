@@ -1,0 +1,10 @@
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { TasklistPage } from '../../tasklist/tasklist.page';
+/* import { User as fbUser } from 'firebase';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+ */ import { Router } from '@angular/router';
+import * as SessionActions from '../actions/session.actions';
+import { Observable, of } from 'rxjs';
+import { switchMap, take, map, catchError } from 'rxjs/operators';

@@ -1,34 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { createTask } from '../app-store/actions/session.actions';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage {
   title = 'タスク登録';
-  tasks: { name: string }[] = [];
+  tasks$: Observable<{ name: string }[]>;
 
-  task: string;
-  constructor() {}
+  taskName: string;
 
-  ngOnInit() {
-    if (localStorage.getItem('tasks')) {
-      this.tasks = JSON.parse(localStorage.getItem('tasks'));
-    }
-  }
-
-  ionViewWillEnter() {
-    if ('task' in localStorage) {
-      this.tasks = JSON.parse(localStorage.getItem('tasks'));
-    }
+  constructor(private store: Store<{ tasks: { name: string }[] }>) {
+    this.tasks$ = store.select('tasks');
   }
 
   addTask() {
-    this.tasks.push({
-      name: this.task,
-    });
-    localStorage.tasks = JSON.stringify(this.tasks);
-    this.task = '';
+    this.store.dispatch(createTask({ name: this.taskName }));
+    this.taskName = '';
   }
 }
